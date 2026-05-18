@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundation Centre of Excellence for Skill Development</title>
+
+    <!-- Google Fonts: Distinctive pairing -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Exo+2:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* ===========================
+           CSS VARIABLES & ROOT SETUP
+           =========================== */
+        :root {
+            --primary:    #0a3cff;       /* Electric Blue */
+            --accent:     #00e5ff;       /* Cyan */
+            --gold:       #ffd700;       /* Gold highlight */
+            --dark:       #040b1a;       /* Deep Navy Black */
+            --dark2:      #07173a;
+            --mid:        #0d2660;
+            --light-text: #c8d8f0;
+            --white:      #ffffff;
+            --card-bg:    rgba(10, 30, 80, 0.6);
+            --glass:      rgba(255,255,255,0.07);
+            --shadow:     0 8px 40px rgba(0,100,255,0.18);
+            --font-head:  'Bebas Neue', sans-serif;
+            --font-body:  'Exo 2', sans-serif;
+            --font-mono:  'Space Mono', monospace;
+        }
+
+        /* ===========================
+           RESET & BASE STYLES
+           =========================== */
+        *, *::before, *::after {
+            margin: 0; padding: 0; box-sizing: border-box;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background: var(--dark);
+            color: var(--light-text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: var(--accent); transition: all 0.3s ease; }
+        a:hover { color: var(--gold); }
+        ul { list-style: none; }
+        h1,h2,h3,h4,h5,h6 { font-family: var(--font-head); color: var(--white); letter-spacing: 1.5px; }
+        section { padding: 90px 0; overflow: hidden; }
+        img { max-width: 100%; display: block; }
+
+        /* ===========================
+           ANIMATED BACKGROUND PARTICLES
+           Used as a global atmospheric effect on dark sections
+           =========================== */
+        .bg-particles {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+            overflow: hidden;
+        }
+        .bg-particles span {
+            position: absolute;
+            display: block;
+            border-radius: 50%;
+            background: rgba(0, 229, 255, 0.12);
+            animation: floatUp linear infinite;
+        }
+        /* Each particle gets a different size/position/speed via nth-child */
+        .bg-particles span:nth-child(1)  { width:6px;  height:6px;  left:10%; animation-duration:18s; animation-delay:0s;  }
+        .bg-particles span:nth-child(2)  { width:10px; height:10px; left:25%; animation-duration:22s; animation-delay:3s;  }
+        .bg-particles span:nth-child(3)  { width:4px;  height:4px;  left:40%; animation-duration:15s; animation-delay:1s;  }
+        .bg-particles span:nth-child(4)  { width:8px;  height:8px;  left:55%; animation-duration:20s; animation-delay:5s;  }
+        .bg-particles span:nth-child(5)  { width:5px;  height:5px;  left:70%; animation-duration:17s; animation-delay:2s;  }
+        .bg-particles span:nth-child(6)  { width:12px; height:12px; left:85%; animation-duration:25s; animation-delay:7s;  }
+        .bg-particles span:nth-child(7)  { width:3px;  height:3px;  left:15%; animation-duration:13s; animation-delay:4s;  }
+        .bg-particles span:nth-child(8)  { width:7px;  height:7px;  left:60%; animation-duration:19s; animation-delay:6s;  }
+        .bg-particles span:nth-child(9)  { width:9px;  height:9px;  left:32%; animation-duration:21s; animation-delay:8s;  }
+        .bg-particles span:nth-child(10) { width:5px;  height:5px;  left:78%; animation-duration:16s; animation-delay:1.5s;}
+
+        @keyframes floatUp {
+            0%   { bottom: -10%; opacity: 0; transform: translateX(0) scale(1); }
+            10%  { opacity: 0.8; }
+            90%  { opacity: 0.6; }
+            100% { bottom: 110%; opacity: 0; transform: translateX(60px) scale(1.3); }
+        }
+
+        /* ===========================
+           CONTAINER UTILITY
+           =========================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative; z-index: 2;
+        }
+
+        /* ===========================
+           COMMON BUTTON STYLE
+           =========================== */
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--white);
+            padding: 13px 32px;
+            border-radius: 4px;
+            font-family: var(--font-head);
+            font-size: 1.1em;
+            letter-spacing: 2px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 20px rgba(0,229,255,0.3);
+        }
+        /* Shimmer effect on btn hover */
+        .btn::before {
+            content: '';
+            position: absolute; top: 0; left: -80%;
+            width: 60%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+        .btn:hover::before { left: 130%; }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 35px rgba(0,229,255,0.6);
+            color: var(--white);
+        }
+
+        /* ===========================
+           SECTION TITLE DECORATION
+           =========================== */
+        .section-title {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 60px;
+            position: relative;
+            padding-bottom: 18px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        /* Glowing underline bar */
+        .section-title::after {
+            content: '';
+            position: absolute; left: 50%; bottom: 0;
+            transform: translateX(-50%);
+            width: 100px; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--gold));
+            border-radius: 2px;
+            box-shadow: 0 0 15px var(--accent);
+        }
+        .section-title span { color: var(--accent); }
+
+        /* ===========================
+           SCROLL REVEAL ANIMATIONS
+           Elements with .reveal class animate in when they enter viewport
+           =========================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1);
+        }
+        .reveal.from-left  { transform: translateX(-60px); }
+        .reveal.from-right { transform: translateX(60px); }
+        .reveal.visible {
+            opacity: 1;
+            transform: translate(0);
+        }
+        /* Stagger delay for children inside grids */
+        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: opacity 0.5s ease, transform 0.5s ease; }
+        .stagger-children.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:0.05s; }
+        .stagger-children.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:0.15s; }
+        .stagger-children.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:0.25s; }
+        .stagger-children.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:0.35s; }
+        .stagger-children.visible > *:nth-child(5) { opacity:1; transform:none; transition-delay:0.45s; }
+        .stagger-children.visible > *:nth-child(6) { opacity:1; transform:none; transition-delay:0.55s; }
+        .stagger-children.visible > *:nth-child(7) { opacity:1; transform:none; transition-delay:0.65s; }
+        .stagger-children.visible > *:nth-child(8) { opacity:1; transform:none; transition-delay:0.75s; }
+        .stagger-children.visible > *:nth-child(9) { opacity:1; transform:none; transition-delay:0.85s; }
+        .stagger-children.visible > *:nth-child(10){ opacity:1; transform:none; transition-delay:0.95s; }
+
+        /* ===========================
+           HEADER & NAVIGATION
+           =========================== */
+        .header {
+            background: rgba(4, 11, 26, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,229,255,0.15);
+            padding: 14px 0;
+            position: sticky; top: 0; z-index: 1000;
+            transition: background 0.4s, box-shadow 0.4s;
+        }
+        /* Header glow on scroll — added via JS */
+        .header.scrolled {
+            background: rgba(4, 11, 26, 0.98);
+            box-shadow: 0 4px 30px rgba(0,100,255,0.25);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+        .logo {
+            display: flex; align-items: center; gap: 12px;
+            font-family: var(--font-head);
+            font-size: 1.3em;
+            color: var(--accent);
+            white-space: nowrap;
+            flex-shrink: 0;
+            letter-spacing: 2px;
+        }
+        .logo img { height: 42px; filter: drop-shadow(0 0 8px var(--accent)); }
+        /* Animated logo text glow */
+        .logo-text-anim {
+            background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
+            background-size: 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: logoGlow 3s linear infinite;
+        }
+        @keyframes logoGlow {
+            0%   { background-position: 0%; }
+            100% { background-position: 200%; }
+        }
+        .nav-links {
+            display: flex; gap: 22px;
+            white-space: nowrap;
+            flex-grow: 1; justify-content: flex-end;
+        }
+        .nav-links a {
+            color: var(--light-text);
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.82em;
+            letter-spacing: 1px;
+            position: relative;
+            padding: 5px 0;
+            text-transform: uppercase;
+        }
+        /* Animated underline on nav links */
+        .nav-links a::after {
+            content: '';
+            position: absolute; left: 0; bottom: 0;
+            width: 0; height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            box-shadow: 0 0 8px var(--accent);
+            transition: width 0.35s cubic-bezier(.4,0,.2,1);
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .hamburger {
+            display: none; font-size: 1.8em;
+            cursor: pointer; color: var(--accent);
+            flex-shrink: 0; margin-left: 20px;
+        }
+
+        /* ===========================
+           HERO SECTION
+           Full-screen with layered animated background
+           =========================== */
+        .hero {
+            position: relative;
+            min-height: 90vh;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        /* Background image layer */
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: url("hero FCOE.png") center/cover no-repeat;
+            /* Parallax-like scale on load */
+            animation: heroZoom 18s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+        @keyframes heroZoom {
+            0%   { transform: scale(1); }
+            100% { transform: scale(1.08); }
+        }
+        /* Dark overlay gradient */
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(
+                160deg,
+                rgba(4,11,26,0.85) 0%,
+                rgba(10,60,255,0.25) 50%,
+                rgba(4,11,26,0.92) 100%
+            );
+            z-index: 1;
+        }
+        /* Animated diagonal scan line */
+        .hero-scanline {
+            position: absolute; inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,229,255,0.03) 2px,
+                rgba(0,229,255,0.03) 4px
+            );
+            z-index: 2; pointer-events: none;
+        }
+        .hero-content {
+            position: relative; z-index: 3;
+            max-width: 950px; padding: 0 20px;
+        }
+        /* Glowing badge above hero heading */
+        .hero-badge {
+            display: inline-block;
+            background: rgba(0,229,255,0.1);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-family: var(--font-mono);
+            font-size: 0.75em;
+            letter-spacing: 4px;
+            padding: 6px 20px;
+            border-radius: 30px;
+            margin-bottom: 24px;
+            animation: pulseGlow 2.5s ease-in-out infinite;
+        }
+        @keyframes pulseGlow {
+            0%,100% { box-shadow: 0 0 8px var(--accent); }
+            50%      { box-shadow: 0 0 25px var(--accent), 0 0 50px rgba(0,229,255,0.3); }
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            line-height: 1.08;
+            letter-spacing: 4px;
+            text-shadow: 0 0 40px rgba(0,229,255,0.4);
+            /* Fade in + slide up on load */
+            animation: heroTextIn 1.2s cubic-bezier(.16,1,.3,1) 0.3s both;
+        }
+        .hero h1 .highlight { color: var(--accent); }
+        .hero p {
+            font-size: 1.25em;
+            font-weight: 300;
+            color: rgba(200, 216, 240, 0.9);
+            max-width: 700px;
+            margin: 22px auto 40px;
+            animation: heroTextIn 1.2s cubic-bezier(.16,1,.3,1) 0.6s both;
+        }
+        .hero .btn {
+            animation: heroTextIn 1.2s cubic-bezier(.16,1,.3,1) 0.9s both;
+            font-size: 1.15em; padding: 16px 44px;
+        }
+        @keyframes heroTextIn {
+            from { opacity:0; transform: translateY(35px); }
+            to   { opacity:1; transform: translateY(0); }
+        }
+        /* Floating animated shapes in hero background */
+        .hero-shapes span {
+            position: absolute; border-radius: 50%;
+            border: 1px solid rgba(0,229,255,0.15);
+            animation: orbitSpin linear infinite;
+            z-index: 1;
+        }
+        .hero-shapes span:nth-child(1) { width:400px; height:400px; top:-100px; left:-150px; animation-duration:30s; }
+        .hero-shapes span:nth-child(2) { width:250px; height:250px; bottom:50px; right:-80px;  animation-duration:22s; animation-direction:reverse; }
+        .hero-shapes span:nth-child(3) { width:180px; height:180px; bottom:200px; left:8%; animation-duration:18s; }
+        @keyframes orbitSpin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        /* ===========================
+           NOTIFICATION OVERLAY POPUP
+           Animated scale-in on page load
+           =========================== */
+        .overlay {
+            position: fixed; inset: 0;
+            background: rgba(4, 11, 26, 0.88);
+            backdrop-filter: blur(8px);
+            display: none; justify-content: center; align-items: center;
+            z-index: 9999;
+        }
+        .notification-card {
+            background: linear-gradient(135deg, var(--dark2), #0a1f55);
+            border: 1px solid rgba(0,229,255,0.3);
+            padding: 50px 40px 40px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(0,229,255,0.2), 0 20px 60px rgba(0,0,0,0.5);
+            max-width: 460px; width: 92%;
+            transform: scale(0.7) translateY(40px);
+            opacity: 0;
+            transition: all 0.45s cubic-bezier(.16,1,.3,1);
+        }
+        .overlay.active .notification-card {
+            transform: scale(1) translateY(0); opacity: 1;
+        }
+        .notif-icon {
+            font-size: 3em; margin-bottom: 16px;
+            animation: bellRing 1.5s 1s ease-in-out 3;
+        }
+        @keyframes bellRing {
+            0%,100% { transform: rotate(0); }
+            20%     { transform: rotate(-18deg); }
+            40%     { transform: rotate(18deg); }
+            60%     { transform: rotate(-10deg); }
+            80%     { transform: rotate(10deg); }
+        }
+        .notification-card h2 { color: var(--white); font-size: 1.8em; margin-bottom: 12px; }
+        .notification-card p  { color: var(--light-text); font-size: 1em; line-height: 1.6; }
+        .close-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--white); border: none;
+            padding: 13px 40px; border-radius: 4px;
+            font-family: var(--font-head); font-size: 1.1em; letter-spacing: 2px;
+            cursor: pointer; margin-top: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 20px rgba(0,229,255,0.3);
+        }
+        .close-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 35px rgba(0,229,255,0.6);
+        }
+
+        /* ===========================
+           ABOUT SECTION
+           =========================== */
+        .about-us { background: var(--dark2); }
+        .about-content { display: flex; flex-wrap: wrap; gap: 50px; align-items: center; }
+        .about-text, .about-image { flex: 1; min-width: 280px; }
+        .about-text h3 {
+            font-size: 1.9em; color: var(--accent);
+            text-shadow: 0 0 20px rgba(0,229,255,0.3);
+            margin-bottom: 18px;
+        }
+        .about-text p { color: var(--light-text); margin-bottom: 14px; font-size: 0.98em; }
+        .about-image img {
+            width: 100%; height: 320px; object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(0,229,255,0.2);
+            box-shadow: 0 0 40px rgba(0,100,255,0.3);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+        .about-image img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 60px rgba(0,229,255,0.4);
+        }
+
+        /* ===========================
+           FEATURES / WHY CHOOSE US SECTION
+           =========================== */
+        .features { background: var(--dark); }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,229,255,0.1);
+            padding: 35px 28px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative; overflow: hidden;
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        /* Glowing top border on hover */
+        .feature-card::before {
+            content: '';
+            position: absolute; top: 0; left: -100%;
+            width: 200%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), var(--gold), transparent);
+            transition: left 0.5s ease;
+        }
+        .feature-card:hover::before { left: 0%; }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0,229,255,0.4);
+            box-shadow: 0 12px 50px rgba(0,229,255,0.15);
+        }
+        .feature-card i {
+            font-size: 2.8em; color: var(--accent);
+            margin-bottom: 18px;
+            display: block;
+            transition: transform 0.4s ease, text-shadow 0.4s ease;
+        }
+        .feature-card:hover i {
+            transform: scale(1.2) rotate(-5deg);
+            text-shadow: 0 0 20px var(--accent);
+        }
+        .feature-card h4 { font-size: 1.2em; color: var(--white); margin-bottom: 10px; }
+        .feature-card p  { color: var(--light-text); font-size: 0.9em; }
+
+        /* ===========================
+           COURSES SECTION (3-Year DAE)
+           =========================== */
+        .courses { background: var(--dark2); }
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 30px;
+        }
+        .course-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,229,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            position: relative;
+        }
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,100,255,0.35);
+            border-color: var(--accent);
+        }
+        /* Image zoom on hover */
+        .course-card-img-wrap { overflow: hidden; height: 190px; }
+        .course-card img {
+            width: 100%; height: 190px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .course-card:hover img { transform: scale(1.08); }
+        /* Gradient overlay on image */
+        .course-card-img-wrap::after {
+            content: '';
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 190px;
+            background: linear-gradient(180deg, transparent 60%, rgba(4,11,26,0.8) 100%);
+            pointer-events: none;
+        }
+        .course-info { padding: 24px; }
+        .course-info h3 { font-size: 1.4em; color: var(--accent); margin-bottom: 10px; }
+        .course-info p  { color: var(--light-text); font-size: 0.9em; margin-bottom: 18px; }
+
+        /* ===========================
+           SHORT COURSES SECTION
+           =========================== */
+        .short-courses { background: var(--dark); }
+        .short-course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 24px;
+        }
+        .short-course-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,229,255,0.1);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 28px 20px;
+            text-align: center;
+            transition: transform 0.35s ease, border-left-color 0.35s ease, box-shadow 0.35s ease;
+            cursor: default;
+        }
+        .short-course-card:hover {
+            transform: translateY(-7px);
+            border-left-color: var(--accent);
+            box-shadow: 0 10px 40px rgba(0,229,255,0.12);
+        }
+        .short-course-card i {
+            font-size: 2.2em; color: var(--accent);
+            margin-bottom: 12px; display: block;
+            transition: transform 0.35s ease;
+        }
+        .short-course-card:hover i { transform: scale(1.2) rotate(10deg); }
+        .short-course-card h4 { color: var(--white); font-size: 1em; margin-bottom: 8px; }
+        .short-course-card p  { color: var(--light-text); font-size: 0.82em; }
+
+        /* ===========================
+           ACTIVITIES SECTION
+           =========================== */
+        .activities { background: var(--dark2); }
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px; text-align: center;
+        }
+        .activity-item {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,229,255,0.1);
+            border-radius: 10px; padding: 35px 24px;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+        .activity-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0,229,255,0.12);
+        }
+        .activity-item i {
+            font-size: 2.8em; color: var(--gold);
+            margin-bottom: 18px; display: block;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+        /* Different float delay for each icon */
+        .activity-item:nth-child(2) i { animation-delay: 0.4s; }
+        .activity-item:nth-child(3) i { animation-delay: 0.8s; }
+        .activity-item:nth-child(4) i { animation-delay: 1.2s; }
+        @keyframes iconFloat {
+            0%,100% { transform: translateY(0); }
+            50%     { transform: translateY(-8px); }
+        }
+        .activity-item h4 { color: var(--white); font-size: 1.2em; margin-bottom: 10px; }
+        .activity-item p  { color: var(--light-text); font-size: 0.9em; }
+
+        /* ===========================
+           GALLERY / SLIDER SECTION
+           =========================== */
+        .gallery { background: var(--dark); }
+        .slider-container {
+            position: relative;
+            max-width: 900px; margin: 0 auto;
+            border-radius: 12px; overflow: hidden;
+            border: 1px solid rgba(0,229,255,0.2);
+            box-shadow: 0 0 50px rgba(0,100,255,0.3);
+        }
+        .slider { display: flex; transition: transform 0.6s cubic-bezier(.4,0,.2,1); }
+        .slider img { width: 100%; height: 460px; object-fit: cover; flex-shrink: 0; }
+        /* Slide counter dots */
+        .slider-dots {
+            position: absolute; bottom: 16px; left: 50%;
+            transform: translateX(-50%);
+            display: flex; gap: 8px; z-index: 5;
+        }
+        .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: rgba(255,255,255,0.4); cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .dot.active { background: var(--accent); transform: scale(1.3); box-shadow: 0 0 8px var(--accent); }
+        .prev-btn, .next-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(10,60,255,0.5);
+            backdrop-filter: blur(6px);
+            color: var(--white); border: none;
+            padding: 16px 13px; cursor: pointer;
+            font-size: 1.4em; border-radius: 6px;
+            transition: background 0.3s, transform 0.3s;
+            z-index: 4;
+        }
+        .prev-btn { left: 12px; }
+        .next-btn { right: 12px; }
+        .prev-btn:hover, .next-btn:hover {
+            background: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* ===========================
+           ADMISSION SECTION
+           =========================== */
+        .admission { background: var(--dark2); }
+        .admission-intro {
+            max-width: 800px; margin: 0 auto 45px;
+            padding: 40px; background: var(--card-bg);
+            border: 1px solid rgba(0,229,255,0.2);
+            border-radius: 12px; text-align: center;
+            box-shadow: var(--shadow);
+        }
+        .admission-intro h3 { color: var(--accent); font-size: 2em; margin-bottom: 16px; }
+        .admission-intro p  { color: var(--light-text); margin-bottom: 12px; }
+        /* Form Container */
+        .form-container {
+            max-width: 920px; margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid rgba(0,229,255,0.2);
+            border-radius: 12px;
+            padding: 40px; display: none;
+            box-shadow: var(--shadow);
+            animation: slideDown 0.5s cubic-bezier(.16,1,.3,1);
+        }
+        @keyframes slideDown {
+            from { opacity:0; transform: translateY(-30px); }
+            to   { opacity:1; transform: translateY(0); }
+        }
+        .form-container header {
+            text-align: center;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 18px; margin-bottom: 28px;
+        }
+        .form-container header .logo { justify-content: center; margin-bottom: 10px; }
+        .form-container h1 { font-size: 1.6em; color: var(--accent); margin: 0 0 5px; }
+        .form-container p  { color: var(--light-text); font-size: 0.95em; }
+        /* Form Groups */
+        .form-group {
+            display: inline-block; width: 48%;
+            margin-bottom: 18px; padding-right: 2%;
+            box-sizing: border-box; vertical-align: top;
+        }
+        .form-group.full-width { width: 100%; padding-right: 0; }
+        .form-group label { color: var(--accent); font-size: 0.88em; letter-spacing: 1px; display: block; margin-bottom: 6px; font-family: var(--font-mono); }
+        /* Input fields — dark themed */
+        .form-container input:not([type="radio"]):not([type="checkbox"]):not([type="file"]),
+        .form-container textarea,
+        .form-container select {
+            width: 100%; padding: 11px 14px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(0,229,255,0.25);
+            border-radius: 5px; color: var(--white);
+            font-family: var(--font-body); font-size: 0.95em;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-container input:focus,
+        .form-container textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 12px rgba(0,229,255,0.25);
+        }
+        .form-container input[type="file"] {
+            color: var(--light-text); font-size: 0.88em;
+            padding: 8px 0;
+        }
+        /* Passport photo box */
+        .image-upload-preview { display: flex; align-items: flex-end; margin-bottom: 24px; gap: 20px; }
+        .passport-image-box {
+            width: 150px; height: 180px; flex-shrink: 0;
+            border: 2px dashed rgba(0,229,255,0.4);
+            background: rgba(0,229,255,0.05);
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden; border-radius: 6px;
+            position: relative;
+        }
+        .passport-image-box::before {
+            content: "Passport Photo\n1.2×1.5";
+            color: rgba(0,229,255,0.5); font-size: 0.82em;
+            text-align: center; white-space: pre-line; font-family: var(--font-mono);
+        }
+        .passport-image-box img { width:100%; height:100%; object-fit:cover; display:none; }
+        .passport-image-box img.active { display:block; }
+        .passport-image-box.has-image::before { display:none; }
+        /* Academic table */
+        .academic-table table { width:100%; border-collapse:collapse; margin:12px 0 22px; }
+        .academic-table th {
+            background: rgba(0,229,255,0.1);
+            border: 1px solid rgba(0,229,255,0.2);
+            padding: 10px 8px; font-family: var(--font-mono);
+            font-size: 0.8em; color: var(--accent); letter-spacing: 1px;
+        }
+        .academic-table td {
+            border: 1px solid rgba(0,229,255,0.15);
+            padding: 4px;
+        }
+        .academic-table td:first-child {
+            padding: 8px; color: var(--light-text); font-size: 0.88em;
+        }
+        .academic-table input {
+            background: transparent; border: none;
+            color: var(--white); text-align:center;
+            padding: 6px; width:100%; font-size: 0.9em;
+            outline: none;
+        }
+        .academic-table input:focus { background: rgba(0,229,255,0.08); }
+        /* Undertaking box */
+        .undertaking {
+            background: rgba(0,229,255,0.05);
+            border: 1px solid rgba(0,229,255,0.2);
+            border-radius: 8px; padding: 22px; margin-bottom: 20px;
+        }
+        .undertaking ul { list-style: none; }
+        .undertaking ul li::before { content: "✔ "; color: var(--accent); }
+        .undertaking ul li { color: var(--light-text); margin-bottom: 8px; font-size: 0.92em; }
+        /* Form section headings */
+        .form-section-title {
+            border-bottom: 1px dashed rgba(0,229,255,0.3);
+            padding-bottom: 8px; margin: 24px 0 18px;
+            font-size: 1.2em; color: var(--accent);
+        }
+        /* Submit + print buttons */
+        .submit-btn { width: 40%; margin-top: 20px; }
+        .print-btn  {
+            width: 40%; display: block; text-align: center;
+            margin-top: 12px; font-size: 1em;
+        }
+        /* Confirmation message */
+        #confirmationMessage {
+            display: none;
+            background: linear-gradient(135deg, rgba(0,100,80,0.9), rgba(0,60,60,0.9));
+            border: 1px solid var(--accent);
+            color: var(--white); padding: 60px 30px;
+            border-radius: 12px; text-align: center;
+            font-size: 1.8em; font-family: var(--font-head);
+            letter-spacing: 3px; margin-top: 50px;
+            box-shadow: 0 0 40px rgba(0,229,255,0.3);
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn { from{opacity:0; transform:translateY(20px)} to{opacity:1; transform:translateY(0)} }
+
+        /* Print CSS — Hides everything but the form */
+        @media print {
+            body { background: #fff; }
+            .header, .footer, .admission-intro, .print-btn,
+            .uploads-section, .undertaking button,
+            .hero, .about-us, .features, .courses,
+            .short-courses, .activities, .gallery, .contact,
+            .bg-particles, .overlay { display: none !important; }
+            .form-container {
+                display: block !important;
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important; max-width: 100% !important;
+                background: #fff !important; color: #000 !important;
+            }
+            .form-group, .form-group.full-width { width: 100% !important; padding-right: 0 !important; }
+            .form-container input:not([type="radio"]):not([type="file"]),
+            .form-container textarea, .form-container .academic-table input {
+                border: 1px solid #999; background: #eee !important;
+                -webkit-print-color-adjust: exact; color-adjust: exact;
+            }
+        }
+
+        /* ===========================
+           CONTACT SECTION
+           =========================== */
+        .contact { background: var(--dark); }
+        .contact-content { display: flex; flex-wrap: wrap; gap: 40px; }
+        .contact-info, .contact-form-wrapper { flex: 1; min-width: 280px; }
+        .contact-info h3 { color: var(--accent); font-size: 1.6em; margin-bottom: 16px; }
+        .contact-info p  { color: var(--light-text); margin-bottom: 12px; }
+        .contact-info ul li {
+            display: flex; align-items: flex-start;
+            margin-bottom: 16px; color: var(--light-text);
+        }
+        .contact-info ul li i { margin-right: 14px; color: var(--accent); font-size: 1.1em; margin-top: 3px; }
+        .social-links { margin-top: 22px; }
+        .social-links a {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 42px; height: 42px; border-radius: 50%;
+            background: rgba(0,229,255,0.1);
+            border: 1px solid rgba(0,229,255,0.3);
+            color: var(--accent); font-size: 1.1em;
+            margin-right: 10px;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,229,255,0.4);
+            color: var(--white);
+        }
+        .contact-form-wrapper {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,229,255,0.15);
+            padding: 35px; border-radius: 12px;
+        }
+        .contact-form-wrapper h2 { color: var(--white); font-size: 1.7em; margin-bottom: 22px; }
+        .contact-form-wrapper input,
+        .contact-form-wrapper textarea {
+            width: 100%; padding: 12px 14px;
+            margin-bottom: 14px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(0,229,255,0.25);
+            border-radius: 5px; color: var(--white);
+            font-family: var(--font-body); font-size: 0.95em;
+            outline: none; transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .contact-form-wrapper input:focus,
+        .contact-form-wrapper textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 12px rgba(0,229,255,0.2);
+        }
+        .contact-form-wrapper input::placeholder,
+        .contact-form-wrapper textarea::placeholder { color: rgba(200,216,240,0.4); }
+        .contact-form-wrapper button[type="submit"] {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--white); border: none;
+            padding: 13px 32px; border-radius: 4px;
+            font-family: var(--font-head); font-size: 1.1em; letter-spacing: 2px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .contact-form-wrapper button[type="submit"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(0,229,255,0.5);
+        }
+        .map-container {
+            margin-top: 40px; border-radius: 12px; overflow: hidden;
+            height: 350px; border: 1px solid rgba(0,229,255,0.2);
+            box-shadow: 0 0 30px rgba(0,100,255,0.2);
+        }
+        .map-container iframe { width:100%; height:100%; border:0; filter: saturate(0.4) hue-rotate(200deg) brightness(0.7); }
+
+        /* ===========================
+           FOOTER
+           =========================== */
+        .footer {
+            background: linear-gradient(180deg, #030916, #040b1a);
+            border-top: 1px solid rgba(0,229,255,0.15);
+            padding: 50px 0 24px;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 36px; margin-bottom: 36px;
+        }
+        .footer h4 { color: var(--accent); font-size: 1em; letter-spacing: 2px; margin-bottom: 18px; }
+        .footer a { color: rgba(200,216,240,0.7); display: block; margin-bottom: 10px; font-size: 0.9em; transition: color 0.3s, padding-left 0.3s; }
+        .footer a:hover { color: var(--accent); padding-left: 6px; }
+        .footer p { color: rgba(200,216,240,0.6); font-size: 0.9em; margin-bottom: 8px; }
+        .footer-bottom { text-align: center; padding-top: 24px; border-top: 1px solid rgba(0,229,255,0.1); }
+        .footer-bottom p { color: rgba(200,216,240,0.4); font-size: 0.85em; }
+
+        /* ===========================
+           COUNTER / STATS SECTION
+           Animated number counters to add impact
+           =========================== */
+        .stats { background: linear-gradient(135deg, var(--mid), var(--dark2)); padding: 70px 0; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px; text-align: center;
+        }
+        .stat-item {
+            padding: 30px 20px;
+            border: 1px solid rgba(0,229,255,0.15);
+            border-radius: 10px; background: rgba(0,0,0,0.2);
+            transition: transform 0.35s, box-shadow 0.35s;
+        }
+        .stat-item:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,229,255,0.15); }
+        .stat-number {
+            font-family: var(--font-head);
+            font-size: 3.2em; color: var(--accent);
+            display: block; line-height: 1;
+            text-shadow: 0 0 20px rgba(0,229,255,0.5);
+        }
+        .stat-label { color: var(--light-text); font-size: 0.9em; margin-top: 8px; letter-spacing: 2px; text-transform: uppercase; }
+
+        /* ===========================
+           SCROLL-TO-TOP BUTTON
+           Appears when user scrolls down
+           =========================== */
+        #scrollTopBtn {
+            position: fixed; bottom: 28px; right: 28px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--white); border: none;
+            width: 48px; height: 48px; border-radius: 50%;
+            font-size: 1.2em; cursor: pointer; z-index: 500;
+            opacity: 0; pointer-events: none;
+            transform: translateY(20px);
+            transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 20px rgba(0,229,255,0.3);
+        }
+        #scrollTopBtn.visible { opacity: 1; pointer-events: all; transform: translateY(0); }
+        #scrollTopBtn:hover { box-shadow: 0 0 35px rgba(0,229,255,0.6); transform: translateY(-4px) !important; }
+
+        /* ===========================
+           RESPONSIVE / MEDIA QUERIES
+           =========================== */
+        @media (max-width: 992px) {
+            .nav-links { gap: 14px; }
+            .nav-links a { font-size: 0.78em; }
+            .hero h1 { font-size: 2.8em; }
+            .section-title { font-size: 2.2em; }
+        }
+        @media (max-width: 768px) {
+            .navbar { flex-wrap: wrap; }
+            .logo { flex: 1; }
+            .hamburger { display: block; }
+            .nav-links {
+                flex-direction: column; width: 100%;
+                position: absolute; top: 71px; left: 0;
+                padding: 20px 0;
+                background: rgba(4,11,26,0.97);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid rgba(0,229,255,0.15);
+                display: none; z-index: 999;
+                gap: 0; justify-content: center;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a { padding: 12px 24px; font-size: 1em; border-bottom: 1px solid rgba(0,229,255,0.08); text-align: center; }
+            .hero h1 { font-size: 2.2em; }
+            .hero p   { font-size: 1em; }
+            .about-content { flex-direction: column; }
+            .form-group { width: 100%; padding-right: 0; }
+            .slider img { height: 300px; }
+            .submit-btn, .print-btn { width: 100%; }
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.8em; }
+            .section-title { font-size: 1.7em; }
+            .slider img { height: 240px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- =====================================================
+     FLOATING BACKGROUND PARTICLES (atmospheric effect)
+     ===================================================== -->
+<div class="bg-particles">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<!-- =====================================================
+     SCROLL-TO-TOP BUTTON
+     ===================================================== -->
+<button id="scrollTopBtn" title="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <i class="fas fa-chevron-up"></i>
+</button>
+
+<!-- =====================================================
+     NOTIFICATION POPUP OVERLAY
+     Shows on page load with bell animation
+     ===================================================== -->
+<div id="notificationOverlay" class="overlay">
+    <div class="notification-card">
+        <!-- Bell icon with ring animation -->
+        <div class="notif-icon">🔔</div>
+        <h2>Welcome to FCoE!</h2>
+        <p>Admissions for 2025 are now <strong style="color:var(--accent)">OPEN</strong>. Apply for our DAE programs and skill courses today. Limited seats available!</p>
+        <button class="close-btn" onclick="closePopup()">GET STARTED</button>
+    </div>
+</div>
+
+<!-- =====================================================
+     HEADER & STICKY NAVIGATION
+     ===================================================== -->
+<header class="header" id="mainHeader">
+    <div class="container navbar">
+        <!-- Logo with animated gradient text -->
+        <a href="#home" class="logo">
+            <img src="fauji foundation.png" alt="FCoE Logo">
+            <span class="logo-text-anim">FOUNDATION CoE</span>
+        </a>
+        <!-- Navigation links -->
+        <nav class="nav-links" id="navLinks">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="#features">Why Us</a>
+            <a href="#courses">Programs</a>
+            <a href="#short-courses">Short Courses</a>
+            <a href="#activities">Activities</a>
+            <a href="#admission">Admission</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <!-- Hamburger for mobile -->
+        <div class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+<!-- =====================================================
+     HERO SECTION
+     Full-screen with animated background + floating shapes
+     ===================================================== -->
+<section class="hero" id="home">
+    <!-- Background image with zoom animation -->
+    <div class="hero-bg"></div>
+    <!-- Dark overlay for contrast -->
+    <div class="hero-overlay"></div>
+    <!-- CRT scan-line texture -->
+    <div class="hero-scanline"></div>
+    <!-- Animated orbiting rings -->
+    <div class="hero-shapes">
+        <span></span><span></span><span></span>
+    </div>
+    <!-- Main hero content -->
+    <div class="hero-content">
+        <!-- Glowing top badge -->
+        <div class="hero-badge">⚡ ADMISSION 2025 NOW OPEN ⚡</div>
+        <h1>WELCOME TO <span class="highlight">FOUNDATION</span><br>CENTER OF EXCELLENCE</h1>
+        <p>Pioneering technical & vocational training to empower tomorrow's skilled professionals across Pakistan.</p>
+        <a href="#admission" class="btn">Apply Now & Launch Your Career</a>
+    </div>
+</section>
+
+<!-- =====================================================
+     STATS / COUNTERS SECTION
+     Animated numbers that count up when visible
+     ===================================================== -->
+<section class="stats" id="stats">
+    <div class="container">
+        <div class="stats-grid stagger-children reveal">
+            <div class="stat-item">
+                <span class="stat-number" data-target="1500">0</span>
+                <div class="stat-label">Students Trained</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="10">0</span>
+                <div class="stat-label">Programs Offered</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="95">0</span>
+                <div class="stat-label">% Job Placement</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="8">0</span>
+                <div class="stat-label">Years of Excellence</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     ABOUT US SECTION
+     ===================================================== -->
+<section class="about-us" id="about">
+    <div class="container">
+        <h2 class="section-title reveal">About Our <span>Premier</span> Technical Institute</h2>
+        <div class="about-content">
+            <!-- Text slides in from left -->
+            <div class="about-text reveal from-left">
+                <h3>Our Mission: Excellence in Technical Education</h3>
+                <p>The Foundation Centre of Excellence (FCoE) is a premier Technical Institute dedicated to bridging the gap between theoretical knowledge and practical industry needs. We provide high-impact, industry-relevant skill development programs across various technical and IT domains, including accredited DAE programs.</p>
+                <p>Established with a vision to cultivate a generation of highly skilled and ethical professionals, FCoE's curriculum emphasizes hands-on experience, practical projects, and personalized mentorship. We ensure our graduates are job-ready and capable of adapting to rapid technology evolution.</p>
+                <a href="#courses" class="btn" style="margin-top:10px;">View Technical Programs</a>
+            </div>
+            <!-- Image slides in from right -->
+            <div class="about-image reveal from-right">
+                <img src="FCOE hero image.png" alt="Technical Institute Training Environment">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     WHY CHOOSE US / FEATURES SECTION
+     Cards with hover glow effects
+     ===================================================== -->
+<section class="features" id="features">
+    <div class="container">
+        <h2 class="section-title reveal">Why Choose <span>FCoE</span>?</h2>
+        <!-- stagger-children applies sequential fade-in to each card -->
+        <div class="features-grid stagger-children reveal">
+            <div class="feature-card">
+                <i class="fas fa-graduation-cap"></i>
+                <h4>Accredited DAE Programs</h4>
+                <p>Diploma of Associate Engineer (DAE) programs in high-demand fields: Electrical, Civil, and IT — fully accredited.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-cogs"></i>
+                <h4>Practical Lab Experience</h4>
+                <p>Access modern equipment and dedicated labs for extensive hands-on, practical training in all courses.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-briefcase"></i>
+                <h4>Career & Placement Support</h4>
+                <p>Career counseling, interview prep, and strong industry linkage for assured employment opportunities.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-user-tie"></i>
+                <h4>Industry Expert Instructors</h4>
+                <p>Learn from seasoned professionals with extensive industry experience and higher academic qualifications.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     3-YEAR DAE PROGRAMS / COURSES SECTION
+     ===================================================== -->
+<section class="courses" id="courses">
+    <div class="container">
+        <h2 class="section-title reveal">Core Technical <span>Programs</span> (3-Year DAE)</h2>
+        <div class="course-grid stagger-children reveal">
+            <!-- Course Card 1 -->
+            <div class="course-card">
+                <div class="course-card-img-wrap">
+                    <img src="cit.webp" alt="DAE Information Technology">
+                </div>
+                <div class="course-info">
+                    <h3>DAE: Information Technology</h3>
+                    <p>3-year diploma: software development, database management, networking, and IT infrastructure.</p>
+                    <a href="#admission" class="btn">Apply Now</a>
+                </div>
+            </div>
+            <!-- Course Card 2 -->
+            <div class="course-card">
+                <div class="course-card-img-wrap">
+                    <img src="electrical.jpeg" alt="DAE Electrical Engineering">
+                </div>
+                <div class="course-info">
+                    <h3>DAE: Electrical Engineering</h3>
+                    <p>3-year diploma: power generation, distribution, electrical machinery, and industrial automation (PLC).</p>
+                    <a href="#admission" class="btn">Apply Now</a>
+                </div>
+            </div>
+            <!-- Course Card 3 -->
+            <div class="course-card">
+                <div class="course-card-img-wrap">
+                    <img src="civil.jpg" alt="DAE Civil Technology">
+                </div>
+                <div class="course-info">
+                    <h3>DAE: Civil Technology</h3>
+                    <p>3-year program: construction management, surveying, structural design, and material testing.</p>
+                    <a href="#admission" class="btn">Apply Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     SHORT COURSES SECTION (3–6 Months)
+     ===================================================== -->
+<section class="short-courses" id="short-courses">
+    <div class="container">
+        <h2 class="section-title reveal">Fast-Track Career <span>Skills</span> 🚀</h2>
+        <p class="reveal" style="text-align:center; margin-bottom:44px; color:var(--light-text);">Advanced, hands-on certification courses designed for rapid skill acquisition and immediate job entry.</p>
+        <!-- Each card staggers in sequentially -->
+        <div class="short-course-grid stagger-children reveal">
+            <div class="short-course-card">
+                <i class="fas fa-code"></i>
+                <h4>Web Development</h4>
+                <p>Full Stack / Front & Back End skills. <strong style="color:var(--accent)">3–6 Months</strong></p>
+            </div>
+            <div class="short-course-card">
+                <i class="fas fa-laptop-code"></i>
+                <h4>Basic IT / Computer Operator</h4>
+                <p>MS Office & data management. <strong style="color:var(--accent)">3 Months</strong></p>
+            </div>
+            <div class="short-course-card">
+                <i class="fas fa-chart-line"></i>
+                <h4>Digital Marketing</h4>
+                <p>SEO, social media, content & ads. <strong style="color:var(--accent)">3–6 Months</strong></p>
+            </div>
+            <div class="short-course-card">
+                <i class="fas fa-palette"></i>
+                <h4>Graphic Designing</h4>
+                <p>Photoshop, Illustrator, design. <strong style="color:var(--accent)">3–6 Months</strong></p>
+            </div>
+            <div class="short-course-card">
+                <i class="fas fa-snowflake"></i>
+                <h4>HVAC</h4>
+                <p>Climate systems installation & maintenance. <strong style="color:var(--accent)">6 Months</strong></p>
+            </div>
+            <div class="short-course-card">
+                <i class="fas fa-burn"></i>
+                <h4>Welding</h4>
+                <p>SMAW, TIG, MIG techniques. <strong style="color:var(--accent)">3–6 Months</strong></p>
+            </div>
+            <div class="short-course-card">
+                <i class="fas fa-bolt"></i>
+                <h4>Building Electrician</h4>
+                <p>Wiring, power distribution, faults. <strong style="color:var(--accent)">3–6 Months</strong></p>
+            </div>
+            <div class="short-course-card">
+                <i class="fas fa-car-side"></i>
+                <h4>Auto Mechanic</h4>
+                <p>Engine diagnostics & vehicle maintenance. <strong style="color:var(--accent)">6 Months</strong></p>
+            </div>
+            <div class="short-course-card">
+                <i class="fas fa-female"></i>
+                <h4>Fashion Designing</h4>
+                <p>Pattern making & stitching basics. <strong style="color:var(--accent)">3–6 Months</strong></p>
+            </div>
+            <div class="short-course-card">
+                <i class="fas fa-magic"></i>
+                <h4>Makeup Course</h4>
+                <p>Bridal & professional makeup. <strong style="color:var(--accent)">3 Months</strong></p>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:44px;">
+            <a href="#admission" class="btn">Enroll in a Short Course</a>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     ACTIVITIES / STUDENT LIFE SECTION
+     Icons float up-down with staggered delays
+     ===================================================== -->
+<section class="activities" id="activities">
+    <div class="container">
+        <h2 class="section-title reveal">Student Life & <span>Co-Curricular</span> Activities</h2>
+        <p class="reveal" style="text-align:center; max-width:760px; margin:0 auto 50px; color:var(--light-text);">FCoE fosters a holistic environment promoting teamwork, leadership, and personal growth alongside technical skills.</p>
+        <div class="activities-grid stagger-children reveal">
+            <div class="activity-item">
+                <i class="fas fa-robot"></i>
+                <h4>Robotics & Innovation Labs</h4>
+                <p>Design, build, and program robotic solutions in hands-on competitions.</p>
+            </div>
+            <div class="activity-item">
+                <i class="fas fa-trophy"></i>
+                <h4>Annual Skill Competitions</h4>
+                <p>Internal and external technical challenges fostering a competitive spirit.</p>
+            </div>
+            <div class="activity-item">
+                <i class="fas fa-users-cog"></i>
+                <h4>Industry Workshops</h4>
+                <p>Regular guest lectures and workshops by industry leaders and alumni.</p>
+            </div>
+            <div class="activity-item">
+                <i class="fas fa-heartbeat"></i>
+                <h4>Health & Wellness Program</h4>
+                <p>Sports leagues, fitness events, and awareness campaigns for a healthy student body.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     GALLERY / IMAGE SLIDER SECTION
+     Auto-plays with dot navigation
+     ===================================================== -->
+<section class="gallery" id="gallery">
+    <div class="container">
+        <h2 class="section-title reveal">Photo <span>Gallery</span></h2>
+        <div class="slider-container reveal">
+            <!-- Image slider track -->
+            <div class="slider" id="imageSlider">
+                <img src="pic3.jpg" alt="Campus View">
+                <img src="pic3.jpg" alt="Lab Practical">
+                <img src="pic4.jpg" alt="Student Activity">
+                <img src="pic5.jpg" alt="Student Activity">
+                <img src="pic6.jpg" alt="Student Activity">
+            </div>
+            <!-- Previous / Next arrow buttons -->
+            <button class="prev-btn" onclick="moveSlider(-1)">&#10094;</button>
+            <button class="next-btn" onclick="moveSlider(1)">&#10095;</button>
+            <!-- Dot indicators — generated by JS -->
+            <div class="slider-dots" id="sliderDots"></div>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     ADMISSION SECTION
+     Shows intro first, reveals animated form on click
+     ===================================================== -->
+<section class="admission" id="admission">
+    <div class="container">
+        <h2 class="section-title reveal">Admission <span>2025</span></h2>
+
+        <!-- Intro card — visible first -->
+        <div class="admission-intro reveal" id="admissionIntro">
+            <h3>Start Your Technical Career Today</h3>
+            <p>Applications for the upcoming session are now open. Limited seats in all DAE and Short Course programs. Read instructions carefully before filling the form.</p>
+            <p><strong style="color:var(--accent)">Required Documents:</strong> CNIC/B-Form, Matric/F.Sc Certificate, Passport Size Photos, Domicile.</p>
+            <button class="btn" onclick="toggleForm('show')" style="margin-top:18px;">Apply Now</button>
+        </div>
+
+        <!-- Hidden form — animates in when "Apply Now" clicked -->
+        <div class="form-container" id="admissionFormContainer">
+            <header>
+                <!-- Logo inside form header -->
+                <div class="logo" style="justify-content:center; margin-bottom:10px;">
+                    <img src="fauji foundation.png" alt="FCoE Logo" style="height:50px; filter:drop-shadow(0 0 8px var(--accent));">
+                </div>
+                <h1>ADMISSION APPLICATION FORM</h1>
+                <p>Foundation Centre of Excellence for Skill Development</p>
+            </header>
+
+            <form id="admissionForm">
+                <!-- Photo upload row + passport photo preview box -->
+                <div class="image-upload-preview full-width">
+                    <div style="flex-grow:1;">
+                        <label style="color:var(--accent); font-family:var(--font-mono); font-size:.88em; margin-bottom:6px; display:block;">Course Applied For:</label>
+                        <input type="text" id="course_applied" name="course_applied" required style="background:rgba(255,255,255,.06);border:1px solid rgba(0,229,255,.25);border-radius:5px;color:#fff;padding:11px 14px;width:100%;font-size:.95em;">
+                    </div>
+                    <div style="width:220px; margin-left:20px;">
+                        <label style="color:var(--accent); font-family:var(--font-mono); font-size:.88em; margin-bottom:6px; display:block;">Passport Photo:</label>
+                        <input type="file" id="passport_photo" name="passport_photo" accept="image/*" onchange="previewImage(event)" style="color:var(--light-text);">
+                    </div>
+                    <!-- Passport photo preview box -->
+                    <div class="passport-image-box" id="passportImageBox">
+                        <img id="imagePreview" src="#" alt="Passport Photo Preview">
+                    </div>
+                </div>
+
+                <!-- Section: Personal Details -->
+                <h3 class="form-section-title">Applicant Personal Details</h3>
+
+                <div class="form-group">
+                    <label for="full_name">Full Name:</label>
+                    <input type="text" id="full_name" name="full_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="father_name">Father's Name:</label>
+                    <input type="text" id="father_name" name="father_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="cnic">CNIC/B-Form No. (13 Digits):</label>
+                    <input type="text" id="cnic" name="cnic" pattern="\d{5}-\d{7}-\d{1}" placeholder="XXXXX-XXXXXXX-X" required>
+                </div>
+                <div class="form-group">
+                    <label for="date_of_birth">Date of Birth:</label>
+                    <input type="date" id="date_of_birth" name="date_of_birth" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" placeholder="03XX-XXXXXXX" required>
+                </div>
+                <div class="form-group full-width">
+                    <label for="address">Permanent Address:</label>
+                    <textarea id="address" name="address" rows="3" required></textarea>
+                </div>
+
+                <!-- Section: Academic Record -->
+                <h3 class="form-section-title">Academic Record (Matric/F.Sc)</h3>
+                <div class="academic-table full-width">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Examination</th>
+                                <th>Board/University</th>
+                                <th>Passing Year</th>
+                                <th>Total Marks</th>
+                                <th>Obtained Marks</th>
+                                <th>Percentage/GPA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Matric / O-Level</td>
+                                <td><input type="text" name="matric_board"></td>
+                                <td><input type="number" name="matric_year"></td>
+                                <td><input type="number" name="matric_total"></td>
+                                <td><input type="number" name="matric_obtained"></td>
+                                <td><input type="text" name="matric_percent"></td>
+                            </tr>
+                            <tr>
+                                <td>Intermediate / A-Level</td>
+                                <td><input type="text" name="inter_board"></td>
+                                <td><input type="number" name="inter_year"></td>
+                                <td><input type="number" name="inter_total"></td>
+                                <td><input type="number" name="inter_obtained"></td>
+                                <td><input type="text" name="inter_percent"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Section: Undertaking -->
+                <h3 class="form-section-title">Undertaking by Applicant</h3>
+                <div class="undertaking full-width">
+                    <p style="font-weight:bold; margin-bottom:12px; color:var(--white);">I hereby declare that:</p>
+                    <ul>
+                        <li>The information provided above is true and correct to the best of my knowledge.</li>
+                        <li>I agree to abide by all the rules and regulations of the Foundation Centre of Excellence.</li>
+                    </ul>
+                </div>
+                <div class="form-group full-width" style="margin-top:18px;">
+                    <label for="applicant_signature">Applicant Signature (Type Full Name):</label>
+                    <input type="text" id="applicant_signature" name="applicant_signature" placeholder="Type Full Name for Signature" required>
+                </div>
+
+                <!-- Section: Document Uploads -->
+                <h3 class="form-section-title">Required Document Uploads</h3>
+                <div class="uploads-section" style="margin-bottom:26px;">
+                    <div class="form-group full-width">
+                        <label for="applicant_cnic">Applicant CNIC / B-Form Image:</label>
+                        <input type="file" id="applicant_cnic" name="applicant_cnic" accept="image/*" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="father_cnic">Father CNIC Image:</label>
+                        <input type="file" id="father_cnic" name="father_cnic" accept="image/*" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="last_degree">Last Degree Image:</label>
+                        <input type="file" id="last_degree" name="last_degree" accept="image/*" required>
+                    </div>
+                    <!-- Beneficiary checkbox -->
+                    <div class="form-group full-width" style="display:flex; align-items:center; gap:14px; margin-bottom:10px;">
+                        <label style="margin:0;">Applicant is a Fauji Foundation Beneficiary:</label>
+                        <input type="checkbox" id="isBeneficiary" style="width:18px; height:18px; accent-color:var(--accent); cursor:pointer;">
+                    </div>
+                    <!-- Discharge book — shown only if beneficiary is checked -->
+                    <div id="discharge_section" class="form-group full-width" style="display:none;">
+                        <label for="discharge_book">Discharge Book (PDF Only):</label>
+                        <input type="file" id="discharge_book" name="discharge_book" accept="application/pdf">
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <button type="submit" class="btn submit-btn">Submit Application</button>
+                <button type="button" onclick="printForm()" class="btn print-btn" style="margin-top:10px;">
+                    <i class="fas fa-print"></i> Print / Save as PDF
+                </button>
+                <button type="button" class="btn print-btn" onclick="toggleForm('hide')" style="background:linear-gradient(135deg,#333,#555); margin-top:10px;">
+                    Close Form
+                </button>
+            </form>
+        </div>
+
+        <!-- Confirmation message after submit -->
+        <div id="confirmationMessage">
+            ✅ Application Submitted Successfully!<br>
+            <span style="font-size:0.6em; letter-spacing:2px; color:var(--accent);">We will contact you shortly.</span>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     CONTACT SECTION
+     Info + web3forms contact form + Google Maps
+     ===================================================== -->
+<section class="contact" id="contact">
+    <div class="container">
+        <h2 class="section-title reveal">Get In <span>Touch</span></h2>
+        <div class="contact-content">
+            <!-- Contact info — slides from left -->
+            <div class="contact-info reveal from-left">
+                <h3>Contact Information</h3>
+                <p>We're here to answer your questions about courses, admissions, and campus life.</p>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> <span>FCOE, New Lalazar, Rawalpindi, Pakistan</span></li>
+                    <li><i class="fas fa-phone-alt"></i> <span>(051) XXXX-XXXX</span></li>
+                    <li><i class="fas fa-envelope"></i> <span>info@fcoe.edu.pk</span></li>
+                    <li><i class="fas fa-clock"></i> <span>Mon – Sat: 9:00 AM – 5:00 PM</span></li>
+                </ul>
+                <!-- Social media links with hover scale effect -->
+                <div class="social-links">
+                    <a href="https://www.facebook.com/share/17Pe6gQhPQ/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <!-- Contact form — slides from right -->
+            <div class="contact-form-wrapper reveal from-right">
+                <h2>Send Us a Message</h2>
+                <!-- Web3Forms for real email delivery -->
+                <form action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="0c618e22-9552-42a1-826f-f94b313ae940">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                    <button type="submit">Send Message <i class="fas fa-paper-plane" style="margin-left:8px;"></i></button>
+                </form>
+            </div>
+        </div>
+        <!-- Google Maps embed with dark filter via CSS -->
+        <div class="map-container reveal">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d154439.4632734267!2d72.93774883498305!3d33.61569766952805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38df94801127027b%3A0x6b864a7c062ce54c!2sRawalpindi%2C%20Punjab%2C%20Pakistan!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div>
+                <h4>Quick Links</h4>
+                <a href="#home">Home</a>
+                <a href="#courses">DAE Programs</a>
+                <a href="#short-courses">Short Courses</a>
+                <a href="#admission">Admission</a>
+                <a href="#contact">Contact Us</a>
+            </div>
+            <div>
+                <h4>Contact Info</h4>
+                <p>Address:</p>
+                <a href="https://maps.app.goo.gl/M1vwT12uGKx55SvW8" target="_blank">FCOE, New Lalazar, RWP</a>
+                <p>Phone: (051) XXXX-XXXX</p>
+                <p>Email: info@fcoe.edu.pk</p>
+            </div>
+            <div>
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/share/17Pe6gQhPQ/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Foundation Centre of Excellence. All Rights Reserved.</p>
+            <p style="margin-top:6px;">Developed by <strong style="color:var(--accent)">AE Kashif Aziz & Ameer Hamza</strong></p>
+        </div>
+    </div>
+</footer>
+
+<!-- =====================================================
+     JAVASCRIPT SECTION
+     All interactivity, animations, and event handlers
+     ===================================================== -->
+<script>
+
+    /* -----------------------------------------------
+       1. POPUP / NOTIFICATION OVERLAY
+       Shows on page load with a short delay so the 
+       animation is visible to the user.
+       ----------------------------------------------- */
+    window.addEventListener('load', function() {
+        const overlay = document.getElementById('notificationOverlay');
+        overlay.style.display = 'flex';
+        // Small timeout so CSS transition is triggered properly
+        setTimeout(() => overlay.classList.add('active'), 50);
+    });
+
+    function closePopup() {
+        const overlay = document.getElementById('notificationOverlay');
+        overlay.classList.remove('active');
+        // Wait for the fade-out animation to finish before hiding
+        setTimeout(() => overlay.style.display = 'none', 450);
+    }
+
+    /* -----------------------------------------------
+       2. HAMBURGER MENU TOGGLE (Mobile Nav)
+       Toggles the 'active' class on nav-links to 
+       show/hide the mobile menu
+       ----------------------------------------------- */
+    document.getElementById('hamburger').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('active');
+    });
+
+    /* -----------------------------------------------
+       3. HEADER SCROLL EFFECT
+       Adds '.scrolled' class to header when user 
+       scrolls past 60px for a darker/glow effect
+       ----------------------------------------------- */
+    window.addEventListener('scroll', function() {
+        const header = document.getElementById('mainHeader');
+        if (window.scrollY > 60) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+
+        // Show or hide scroll-to-top button
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        if (window.scrollY > 400) {
+            scrollBtn.classList.add('visible');
+        } else {
+            scrollBtn.classList.remove('visible');
+        }
+    });
+
+    /* -----------------------------------------------
+       4. ACTIVE NAV LINK ON SCROLL
+       Highlights the nav link corresponding to the 
+       section currently in the viewport
+       ----------------------------------------------- */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', function() {
+        let scrollPos = window.scrollY + 120;
+        sections.forEach(section => {
+            if (scrollPos >= section.offsetTop && scrollPos < section.offsetTop + section.offsetHeight) {
+                navLinks.forEach(link => link.classList.remove('active'));
+                const activeLink = document.querySelector(`.nav-links a[href="#${section.id}"]`);
+                if (activeLink) activeLink.classList.add('active');
+            }
+        });
+    });
+
+    /* -----------------------------------------------
+       5. SCROLL REVEAL ANIMATION (Intersection Observer)
+       Watches for .reveal elements entering the viewport 
+       and adds .visible class to trigger their CSS transition.
+       Also handles .stagger-children grids.
+       ----------------------------------------------- */
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Once revealed, stop observing to save resources
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 }); // Trigger when 12% of element is visible
+
+    document.querySelectorAll('.reveal, .stagger-children').forEach(el => {
+        revealObserver.observe(el);
+    });
+
+    /* -----------------------------------------------
+       6. ANIMATED COUNTER / STATS
+       Counts numbers up from 0 to target value when 
+       the stats section enters the viewport
+       ----------------------------------------------- */
+    function animateCounter(el) {
+        const target = parseInt(el.getAttribute('data-target'));
+        const duration = 2000; // 2 seconds total animation
+        const step = target / (duration / 16); // 60fps approx
+        let current = 0;
+
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            el.textContent = Math.floor(current) + (el.closest('.stat-item').querySelector('.stat-label').textContent.includes('%') ? '' : '+');
+        }, 16);
+    }
+
+    // Observer specifically for counter elements
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.querySelectorAll('.stat-number').forEach(animateCounter);
+                counterObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    const statsSection = document.querySelector('.stats-grid');
+    if (statsSection) counterObserver.observe(statsSection);
+
+    /* -----------------------------------------------
+       7. GALLERY SLIDER
+       Manual prev/next with dot indicators and 
+       auto-play every 4 seconds
+       ----------------------------------------------- */
+    let currentSlide = 0;
+    const slider = document.getElementById('imageSlider');
+    const images = slider ? slider.getElementsByTagName('img') : [];
+    const totalSlides = images.length;
+    const dotsContainer = document.getElementById('sliderDots');
+
+    // Generate dot indicators dynamically based on image count
+    if (dotsContainer && totalSlides > 0) {
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        }
+    }
+
+    function updateSlider() {
+        // Wrap around at boundaries
+        if (currentSlide < 0) currentSlide = totalSlides - 1;
+        if (currentSlide >= totalSlides) currentSlide = 0;
+        // Move the slider track
+        slider.style.transform = `translateX(${-currentSlide * 100}%)`;
+        // Update dots
+        document.querySelectorAll('.dot').forEach((d, i) => {
+            d.classList.toggle('active', i === currentSlide);
+        });
+    }
+
+    function moveSlider(direction) {
+        currentSlide += direction;
+        updateSlider();
+    }
+
+    function goToSlide(index) {
+        currentSlide = index;
+        updateSlider();
+    }
+
+    // Auto-play: advance slide every 4 seconds
+    const autoPlay = setInterval(() => moveSlider(1), 4000);
+    // Pause auto-play on hover
+    if (slider) {
+        slider.parentElement.addEventListener('mouseenter', () => clearInterval(autoPlay));
+    }
+
+    /* -----------------------------------------------
+       8. ADMISSION FORM TOGGLE
+       Shows/hides the form with smooth scroll into view
+       ----------------------------------------------- */
+    function toggleForm(action) {
+        const formContainer = document.getElementById('admissionFormContainer');
+        const intro = document.getElementById('admissionIntro');
+
+        if (action === 'show') {
+            intro.style.display = 'none';
+            formContainer.style.display = 'block';
+            // Smooth scroll so the form comes into view
+            setTimeout(() => formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        } else {
+            intro.style.display = 'block';
+            formContainer.style.display = 'none';
+            // Scroll back to the admission section heading
+            document.getElementById('admission').scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    /* -----------------------------------------------
+       9. PASSPORT PHOTO PREVIEW
+       Reads the uploaded image file and shows a live 
+       preview inside the passport-photo box
+       ----------------------------------------------- */
+    function previewImage(event) {
+        const imagePreview = document.getElementById('imagePreview');
+        const passportImageBox = document.getElementById('passportImageBox');
+
+        if (event.target.files && event.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.classList.add('active');
+                passportImageBox.classList.add('has-image');
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        } else {
+            imagePreview.classList.remove('active');
+            passportImageBox.classList.remove('has-image');
+        }
+    }
+
+    /* -----------------------------------------------
+       10. BENEFICIARY CHECKBOX — SHOW/HIDE DISCHARGE BOOK
+       Toggles the discharge book upload field based 
+       on whether the beneficiary checkbox is checked
+       ----------------------------------------------- */
+    document.getElementById('isBeneficiary').addEventListener('change', function() {
+        const discharge = document.getElementById('discharge_section');
+        const dischargeInput = document.getElementById('discharge_book');
+        if (this.checked) {
+            discharge.style.display = 'block';
+            dischargeInput.required = true;
+        } else {
+            discharge.style.display = 'none';
+            dischargeInput.required = false;
+            dischargeInput.value = '';
+        }
+    });
+
+    /* -----------------------------------------------
+       11. FILE SIZE VALIDATION
+       Prevents files larger than 2MB from being 
+       uploaded to any file input
+       ----------------------------------------------- */
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (file && file.size > maxSize) {
+                alert('File is too large! Maximum allowed size is 2MB.');
+                e.target.value = '';
+            }
+        });
+    });
+
+    /* -----------------------------------------------
+       12. FORM SUBMISSION HANDLER
+       Prevents default submission, shows a success 
+       confirmation message, and smoothly scrolls to it
+       ----------------------------------------------- */
+    document.getElementById('admissionForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Stop default form POST
+        document.getElementById('admissionFormContainer').style.display = 'none';
+        const confirmation = document.getElementById('confirmationMessage');
+        confirmation.style.display = 'block';
+        confirmation.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    /* -----------------------------------------------
+       13. PRINT / SAVE AS PDF FUNCTION
+       Triggers the browser's native print dialog.
+       The @media print CSS ensures only the form is 
+       printed (everything else is hidden).
+       ----------------------------------------------- */
+    function printForm() {
+        window.print();
+    }
+
+    /* -----------------------------------------------
+       14. CLOSE MOBILE MENU ON LINK CLICK
+       When any nav link is clicked in mobile view, 
+       the menu automatically closes
+       ----------------------------------------------- */
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('navLinks').classList.remove('active');
+        });
+    });
+
+</script>
+</body>
+</html>
